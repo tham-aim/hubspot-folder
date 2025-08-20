@@ -3,7 +3,7 @@ import fetch from "node-fetch";
 import dotenv from "dotenv";
 dotenv.config();
 const app = express();
-const PORT = 3005;
+const PORT = 80;
 
 app.get("/api/folders", async (req, res) => {
   try {
