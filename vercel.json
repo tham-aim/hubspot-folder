@@ -1,0 +1,18 @@
+{
+    "version": 2,
+    "functions": {
+      "search.js": {
+        "runtime": "nodejs21.x"
+      }
+    },
+    "routes": [
+      {
+        "src": "/api/(.*)",
+        "dest": "/search.js"
+      }
+    ],
+    "env": {
+      "HUBSPOT_TOKEN": "@hubspot_token"
+    }
+  }
+  
