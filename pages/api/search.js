@@ -34,22 +34,47 @@ export default async function handler(req, res) {
   }
 
   try {
-    const { parentFolderIds, type, limit = 100 } = req.query;
+    const { parentFolderIds } = req.query;
     
     if (!parentFolderIds) {
       return res.status(400).json({ error: "parentFolderIds is required" });
     }
 
-    if (!type || !['folders', 'files'].includes(type)) {
-      return res.status(400).json({ error: "type must be 'folders' or 'files'" });
-    }
-
+    // Step 1: Get subfolders from the parent folder
+    const foldersResponse = await callHubSpotAPI("folders/search", { parentFolderIds });
+    
     let results;
-
-    if (type === 'folders') {
-      results = await callHubSpotAPI("folders/search", { parentFolderIds });
-    } else if (type === 'files') {
-      results = await callHubSpotAPI("files/search", { parentFolderIds, limit });
+    if (!foldersResponse.results || foldersResponse.results.length === 0) {
+      results = {};
+    } else {
+      // Step 2: For each subfolder, get all files
+      const galleries = [];
+      
+      for (const folder of foldersResponse.results) {
+        try {
+          const filesResponse = await callHubSpotAPI("files/search", { 
+            parentFolderIds: folder.id, 
+            limit: 100 // Get all files from each subfolder
+          });
+          
+          if (filesResponse.results) {
+            // Create gallery object with subfolder name and items
+            const gallery = {
+              folder: folder.name,
+              items: filesResponse.results.map(file => ({
+                id: file.id,
+                url: file.url
+              }))
+            };
+            galleries.push(gallery);
+          }
+        } catch (error) {
+          console.error(`Error fetching files from folder ${folder.id}:`, error);
+          // Continue with other folders even if one fails
+        }
+      }
+      
+      results = galleries;
     }
 
     res.json(results);
