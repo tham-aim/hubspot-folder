@@ -18,12 +18,23 @@ async function callHubSpotAPI(endpoint, params = {}) {
 }
 
 export default async function handler(req, res) {
+  // Set CORS headers
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+
+  // Handle preflight OPTIONS request
+  if (req.method === 'OPTIONS') {
+    res.status(200).end();
+    return;
+  }
+
   if (req.method !== 'GET') {
     return res.status(405).json({ error: 'Method not allowed' });
   }
 
   try {
-    const { parentFolderIds, type = 'both', limit = 100 } = req.query;
+    const { parentFolderIds, type, limit = 100 } = req.query;
     
     if (!parentFolderIds) {
       return res.status(400).json({ error: "parentFolderIds is required" });

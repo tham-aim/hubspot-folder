@@ -4,22 +4,12 @@ export default function Home() {
       <h1>HubSpot API Server</h1>
       <p>Your Next.js API server is running successfully!</p>
       
-      <h2>Available API Endpoints:</h2>
+      <h2>Available API Endpoint:</h2>
       <ul>
         <li>
-          <strong>GET /api/search</strong> - Combined search for files and folders
+          <strong>GET /api/search</strong> - Search for files or folders
           <br />
-          <code>?parentFolderIds=YOUR_FOLDER_ID&type=both&limit=100</code>
-        </li>
-        <li>
-          <strong>GET /api/folders</strong> - Search folders only
-          <br />
-          <code>?parentFolderIds=YOUR_FOLDER_ID</code>
-        </li>
-        <li>
-          <strong>GET /api/files</strong> - Search files only
-          <br />
-          <code>?parentFolderIds=YOUR_FOLDER_ID&limit=100</code>
+          <code>?parentFolderIds=YOUR_FOLDER_ID&type=folders|files&limit=100</code>
         </li>
       </ul>
       
@@ -29,6 +19,13 @@ export default function Home() {
         <li><strong>type=files</strong> - Search only files</li>
       </ul>
       
+      <h2>Parameters:</h2>
+      <ul>
+        <li><strong>parentFolderIds</strong> (required) - The folder ID to search in</li>
+        <li><strong>type</strong> (required) - Either 'folders' or 'files'</li>
+        <li><strong>limit</strong> (optional) - Limit for files search, default: 100</li>
+      </ul>
+      
       <h2>Test URLs:</h2>
       <p>
         <a href="/api/search?parentFolderIds=264743914744&type=folders" target="_blank">
@@ -36,15 +33,13 @@ export default function Home() {
         </a>
       </p>
       <p>
-        <a href="/api/search?parentFolderIds=264743914744&type=folders" target="_blank">
-          Folders Only
-        </a>
-      </p>
-      <p>
         <a href="/api/search?parentFolderIds=264743914744&type=files&limit=10" target="_blank">
-          Files Only (Limit 10)
+          Search Files (Limit 10)
         </a>
       </p>
+      
+      <h2>CORS Support:</h2>
+      <p>✅ Cross-origin requests are enabled for all origins</p>
     </div>
   )
 }
