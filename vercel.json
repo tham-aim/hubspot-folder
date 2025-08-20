@@ -2,7 +2,7 @@
     "version": 2,
     "functions": {
       "search.js": {
-        "runtime": "nodejs21.x"
+        "runtime": "nodejs22.x"
       }
     },
     "routes": [
@@ -14,5 +14,5 @@
     "env": {
       "HUBSPOT_TOKEN": "@hubspot_token"
     }
-  }
+}
   
