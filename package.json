@@ -1,15 +1,15 @@
 {
-  "type": "module",
-  "engines" : { 
-    "node" : "22.x" 
-  },
   "scripts": {
-    "dev": "node search.js",
-    "build": "node search.js",
-    "start": "node search.js"
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
   },
   "dependencies": {
     "dotenv": "^16.4.7",
-    "express": "^4.21.2"
+    "express": "^16.4.7",
+    "next": "^15.0.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
   }
 }

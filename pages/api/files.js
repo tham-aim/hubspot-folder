@@ -1,10 +1,3 @@
-import express from "express";
-import dotenv from "dotenv";
-
-dotenv.config();
-const app = express();
-const PORT = 80;
-
 // Helper function to make HubSpot API calls
 async function callHubSpotAPI(endpoint, params = {}) {
   const queryString = new URLSearchParams(params).toString();
@@ -24,21 +17,11 @@ async function callHubSpotAPI(endpoint, params = {}) {
   return response.json();
 }
 
-app.get("/api/folders", async (req, res) => {
-  try {
-    const { parentFolderIds } = req.query;
-    if (!parentFolderIds) {
-      return res.status(400).json({ error: "parentFolderIds is required" });
-    }
-
-    const data = await callHubSpotAPI("folders/search", { parentFolderIds });
-    res.json(data);
-  } catch (err) {
-    res.status(500).json({ error: err.message });
+export default async function handler(req, res) {
+  if (req.method !== 'GET') {
+    return res.status(405).json({ error: 'Method not allowed' });
   }
-});
 
-app.get("/api/files", async (req, res) => {
   try {
     const { parentFolderIds, limit = 100 } = req.query;
     if (!parentFolderIds) {
@@ -50,6 +33,4 @@ app.get("/api/files", async (req, res) => {
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
-});
-
-app.listen(PORT, () => console.log(`Server running on http://localhost:${PORT}`));
+}
