@@ -1,5 +1,8 @@
 {
   "type": "module",
+  "engines" : { 
+    "node" : "20.x" 
+  },
   "scripts": {
     "dev": "node search.js",
     "build": "node search.js",
