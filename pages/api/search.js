@@ -63,6 +63,7 @@ export default async function handler(req, res) {
               folder: folder.name,
               items: filesResponse.results.map(file => ({
                 id: file.id,
+                name: file.name,
                 url: file.url
               }))
             };
